@@ -20,7 +20,7 @@ namespace FWS.Movie.WebAPI.Controllers
             this._movieService = new MovieService(); // TO DO: change this object initialization to Dependency Injection
         }
 
-        // GET api/Movie/Get
+        // POSt api/Movie/Get
         [HttpPost]
         [Route("Get")]
         public IHttpActionResult GetMovies(MovieFilterDTO param)
@@ -35,17 +35,15 @@ namespace FWS.Movie.WebAPI.Controllers
             return Ok(movies);
         }
 
+        // GET api/Movie/GetTopRated
         [HttpGet]
-        [Route("GetTop")]
-        public IEnumerable<MovieDTO> GetTopMovies()
+        [Route("GetTopRated")]
+        public IHttpActionResult GetTopMovies()
         {
-            var movies = new List<MovieDTO>();
-            movies.Add(new MovieDTO() { Id = 1, Title = "Movie 1", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 3.5 });
-            movies.Add(new MovieDTO() { Id = 2, Title = "Movie 2", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 5 });
-            movies.Add(new MovieDTO() { Id = 3, Title = "Movie 3", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 4 });
-            movies.Add(new MovieDTO() { Id = 4, Title = "Movie 4", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 2.5 });
-            movies.Add(new MovieDTO() { Id = 5, Title = "Movie 5", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 4.5 });
-            return movies;
+            var movies = this._movieService.GetTopRatedMovies(5);
+            if (movies == null || movies.Count < 1)
+                return NotFound(); // 404
+            return Ok(movies);
         }
 
         [HttpGet]

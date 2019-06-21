@@ -8,5 +8,6 @@ namespace FWS.Movie.Service.Interfaces
     public interface IMovieService
     {
         List<MovieDTO> GetMovies(MovieFilterDTO param);
+        List<MovieDTO> GetTopRatedMovies(int maxCount);
     }
 }

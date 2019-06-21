@@ -19,6 +19,11 @@ namespace FWS.Movie.Service
             this.Movies.Add(new MovieDTO() { Id = 5, Title = "Movie 5", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 4.5 });
         }
 
+        /// <summary>
+        /// Get list of movies based on the param
+        /// </summary>
+        /// <param name="param">Filters</param>
+        /// <returns>List of MovieDTO</returns>
         public List<MovieDTO> GetMovies(MovieFilterDTO param)
         {
             IEnumerable<MovieDTO> filterdMovies = this.Movies;
@@ -36,6 +41,16 @@ namespace FWS.Movie.Service
             }
 
             return filterdMovies.ToList();
+        }
+
+        /// <summary>
+        /// Get top rated movies
+        /// </summary>
+        /// <param name="maxCount">Count of movies</param>
+        /// <returns>List of movies</returns>
+        public List<MovieDTO> GetTopRatedMovies(int maxCount)
+        {
+            return this.Movies.OrderBy(x => x.AverageRating).ThenBy(x => x.Title).Take(maxCount).ToList();
         }
     }
 }
