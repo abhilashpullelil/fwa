@@ -29,7 +29,7 @@ namespace FWS.Movie.WebAPI.Controllers
                 return BadRequest(); // 400
 
             var movies = this._movieService.GetMovies(param);
-            if (movies == null)
+            if (movies == null || movies.Count < 1)
                 return NotFound(); // 404
             
             return Ok(movies);
@@ -46,17 +46,23 @@ namespace FWS.Movie.WebAPI.Controllers
             return Ok(movies);
         }
 
+        // GET api/Movie/GetMyTop
         [HttpGet]
         [Route("GetMyTop")]
-        public IEnumerable<MovieDTO> GetMyTopMovies(int user)
+        public IHttpActionResult GetMyTopMovies(int user)
         {
-            var movies = new List<MovieDTO>();
-            movies.Add(new MovieDTO() { Id = 1, Title = "Movie 1", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 3.5 });
-            movies.Add(new MovieDTO() { Id = 2, Title = "Movie 2", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 5 });
-            movies.Add(new MovieDTO() { Id = 3, Title = "Movie 3", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 4 });
-            movies.Add(new MovieDTO() { Id = 4, Title = "Movie 4", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 2.5 });
-            movies.Add(new MovieDTO() { Id = 5, Title = "Movie 5", YearOfRelease = DateTime.Now.AddDays(-200), Genres = "Action", RunningTimeMinutes = 120, AverageRating = 4.5 });
-            return movies;
+            var movies = this._movieService.GetUserTopRatedMovies(user, 5);
+            if (movies == null || movies.Count < 1)
+                return NotFound(); // 404
+            return Ok(movies);
+        }
+
+        [HttpPost]
+        [Route("RateMovie")]
+        public IHttpActionResult AddUpdateMovieRating(UserMovieRateDTO param)
+        {
+            // TO Do: implement this function
+            return Ok();
         }
 
         //// GET api/values/5

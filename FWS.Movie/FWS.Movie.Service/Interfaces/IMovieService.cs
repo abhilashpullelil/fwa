@@ -9,5 +9,6 @@ namespace FWS.Movie.Service.Interfaces
     {
         List<MovieDTO> GetMovies(MovieFilterDTO param);
         List<MovieDTO> GetTopRatedMovies(int maxCount);
+        List<MovieDTO> GetUserTopRatedMovies(int userId, int maxCount);
     }
 }
